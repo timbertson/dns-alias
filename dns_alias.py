@@ -36,15 +36,14 @@ class ProxyResolver(BaseResolver):
 		reply = request.reply()
 
 		for q in request.questions:
-
 			qname = request.q.qname
 			qtype = request.q.qtype
-			# Try to resolve locally
 			try:
 				for name,get_dest in self.aliases:
 					if qname.matchGlob(name) and (qtype in (QTYPE.A,QTYPE.ANY,QTYPE.CNAME)):
 						a = RR(qname, rdata=A(get_dest()), ttl=10)
 						reply.add_answer(a)
+						break # first match wins
 			except Exception as e:
 				print("Got error: %s" % (e,), file=sys.stderr)
 				reply.rr = []
