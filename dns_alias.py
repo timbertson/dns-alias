@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from __future__ import print_function
-import binascii,socket,struct,os
+import binascii,socket,struct,os,sys
 
 from dnslib import DNSRecord, QTYPE, RR, A, RCODE
 from dnslib.server import DNSServer,DNSHandler,BaseResolver,DNSLogger,UDPServer
@@ -78,7 +78,7 @@ class Server(DNSServer):
 			k['server'] = make_server
 		super(Server, self).__init__(**k)
 
-if __name__ == '__main__':
+def main():
 	import argparse,sys,time
 
 	p = argparse.ArgumentParser(description="DNS Proxy")
@@ -130,4 +130,5 @@ if __name__ == '__main__':
 	while udp_server.isAlive():
 		time.sleep(1)
 
-
+if __name__ == '__main__':
+	main()
